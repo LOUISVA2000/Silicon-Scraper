@@ -30,21 +30,21 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel', // id
   'High Importance Notifications', // title
-  'This channel is used for important notifications.', // description
+  // 'This channel is used for important notifications.', // description
   importance: Importance.max,
 );
 
 void main() async{
-  WatchListInjector.configure(DependencyType.PROD);
-  ExplorePageInjector.configure(DependencyType.PROD);
-  RecommendationPageInjector.configure(DependencyType.PROD);
-  SearchSortFilterInjector.configure(DependencyType.PROD);
-  PredictionInjector.configure(DependencyType.PROD,fail: false);
-  LoginInjector.configure(DependencyType.PROD,success: true);
-  SignUpInjector.configure(DependencyType.PROD,success: true);
+  WatchListInjector.configure(DependencyType.MOCK);
+  ExplorePageInjector.configure(DependencyType.MOCK);
+  RecommendationPageInjector.configure(DependencyType.MOCK);
+  SearchSortFilterInjector.configure(DependencyType.MOCK);
+  PredictionInjector.configure(DependencyType.MOCK,fail: false);
+  LoginInjector.configure(DependencyType.MOCK,success: true);
+  SignUpInjector.configure(DependencyType.MOCK,success: true);
   NotificationViewModel notification=new NotificationViewModel();
-  SentimentInjector.configure(DependencyType.PROD);
-  LineChartInjector.configure(DependencyType.PROD);
+  SentimentInjector.configure(DependencyType.MOCK);
+  LineChartInjector.configure(DependencyType.MOCK);
 
 
   /// this sets the initial products for the watch list do not remove
@@ -53,7 +53,7 @@ void main() async{
 
 
   /// below this line is firebase implementations
-  await Firebase.initializeApp();
+/*  await Firebase.initializeApp(); todo fix firebase
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 //  String t=await FirebaseMessaging.instance.getToken();
 //  print("your token is:"+t);
@@ -88,13 +88,13 @@ void main() async{
             android: AndroidNotificationDetails(
               channel.id,
               channel.name,
-              channel.description,
+              // channel.description,
               icon: android?.smallIcon,
               // other properties...
             ),
           ));
     }
-  });
+  });*/
 
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -127,30 +127,30 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
-  Future<void> setupInteractedMessage() async {
-    // Get any messages which caused the application to open from
-    // a terminated state.
-    RemoteMessage initialMessage =
-    await FirebaseMessaging.instance.getInitialMessage();
-
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    if (initialMessage != null) {
-      _handleMessage(initialMessage);
-    }
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-  }
-
-  void _handleMessage(RemoteMessage message) {
-    if (message.data['type'] == 'chat') {
-      Navigator.pushNamed(context, '/chat',
-        arguments: message
-      );
-    }
-  }
+  // Future<void> setupInteractedMessage() async { todo fix
+  //   // Get any messages which caused the application to open from
+  //   // a terminated state.
+  //   RemoteMessage initialMessage =
+  //   await FirebaseMessaging.instance.getInitialMessage();
+  //
+  //   // If the message also contains a data property with a "type" of "chat",
+  //   // navigate to a chat screen
+  //   if (initialMessage != null) {
+  //     _handleMessage(initialMessage);
+  //   }
+  //
+  //   // Also handle any interaction when the app is in the background via a
+  //   // Stream listener
+  //   FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  // }
+  //
+  // void _handleMessage(RemoteMessage message) {
+  //   if (message.data['type'] == 'chat') {
+  //     Navigator.pushNamed(context, '/chat',
+  //       arguments: message
+  //     );
+  //   }
+  // }
 
 
 
@@ -160,7 +160,7 @@ class _MyAppState extends State<MyApp> {
 
     // Run code required to handle interacted messages in an async function
     // as initState() must not be async
-    setupInteractedMessage();
+    // setupInteractedMessage(); todo fix
   }
 
   @override

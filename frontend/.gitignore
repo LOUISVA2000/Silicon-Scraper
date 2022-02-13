@@ -60,3 +60,4 @@ app.*.map.json
 /web/
 /android/
 /ios/
+/analysis_options.yaml
